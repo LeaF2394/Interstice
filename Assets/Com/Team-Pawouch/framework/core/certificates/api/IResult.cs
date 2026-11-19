@@ -2,9 +2,7 @@
 // IResult.cs - 2026-11-20 01:11:32
 
 #nullable enable
-using com.team_pawouch.framework.core.certificates.api;
-
-namespace com.team_pawouch.framework.core.datas.api;
+namespace com.team_pawouch.framework.core.certificates.api;
 
 public interface IResult {
 	IRequest Session { get; }
