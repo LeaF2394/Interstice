@@ -1,3 +1,4 @@
 ﻿{
-  "name": "com.team-pawouch.framework.core.certificates"
+  "name": "com.team-pawouch.framework.core.certificates",
+  "references":[ "GUID:4edac262b19347139b4c1957965856a9" ]
 }
