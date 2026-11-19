@@ -1,4 +1,14 @@
-﻿{
-  "name": "com.team-pawouch.framework.core.datas",
-  "references":[ "GUID:a193cf7feae74d7d8c17ce9ca48dec96" ]
+{
+    "name": "com.team-pawouch.framework.core.datas",
+    "rootNamespace": "",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
