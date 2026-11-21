@@ -1,16 +1,4 @@
 {
-    "name": "Package.Com.Team-Pawouch.Interstice.Runtime.Core",
-    "rootNamespace": "Package.Com.TeamPawouch.Interstice.Runtime.Core",
-    "references": [
-        "GUID:b9fbf339c97314e43b0c528eb6f305ad"
-    ],
-    "includePlatforms": [],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+  "name": "com.team-pawouch.framework.editor",
+  "references":[ "GUID:1dfa407486494323bd25e67da449337d" ]
 }

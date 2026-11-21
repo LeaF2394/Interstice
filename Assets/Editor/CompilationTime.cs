@@ -38,10 +38,10 @@ public static class CompilationTime {
 		lock(_lk) {
 			if(_watches.TryGetValue(obj, out Stopwatch? watch)) {
 				watch.Stop();
-				_ = UnityLogger.ClassInstance.InfoF("Compiler", "Compilation <color=#{0}>#{1}</color> >> <color=#{0}>{2:F2}</color> ms", ColorUtility.ToHtmlStringRGB(Color.lightGoldenRod), EditorPrefs.GetInt("0", 0), watch.Elapsed.TotalMilliseconds);
+				UnityLogger.ClassInstance.InfoF("Compiler", "Compilation <color=#{0}>#{1}</color> >> <color=#{0}>{2:F2}</color> ms", ColorUtility.ToHtmlStringRGB(Color.lightGoldenRod), EditorPrefs.GetInt("0", 0), watch.Elapsed.TotalMilliseconds);
 			}
 			else {
-				_ = UnityLogger.ClassInstance.WarnF("Compiler", "Compilation Finished. <color=#{0}>(404 NO CONTEXT FOUND)</color>", ColorUtility.ToHtmlStringRGB(Color.crimson));
+				UnityLogger.ClassInstance.WarnF("Compiler", "Compilation Finished. <color=#{0}>(404 NO CONTEXT FOUND)</color>", ColorUtility.ToHtmlStringRGB(Color.crimson));
 			}
 
 			_watches.Remove(obj);

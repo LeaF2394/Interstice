@@ -1347,8 +1347,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Interstice
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5e6beff559f2cfc46828cf0d531a74af, type: 2}
-  m_sharedMaterial: {fileID: -4287302518183062965, guid: 5e6beff559f2cfc46828cf0d531a74af, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5909e99661a3b6b47aed3cd9f31f9318, type: 2}
+  m_sharedMaterial: {fileID: 1088039234481757841, guid: 5909e99661a3b6b47aed3cd9f31f9318, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1372,8 +1372,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 160
-  m_fontSizeBase: 160
+  m_fontSize: 120
+  m_fontSizeBase: 120
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
