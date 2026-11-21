@@ -1,4 +1,4 @@
 ﻿{
   "name": "com.team-pawouch.framework.core.behaviour",
-  "references":[ "GUID:4edac262b19347139b4c1957965856a9", "GUID:a193cf7feae74d7d8c17ce9ca48dec96" ]
+  "references":[ "GUID:4edac262b19347139b4c1957965856a9", "GUID:a193cf7feae74d7d8c17ce9ca48dec96", "GUID:d72bef645c6347cda348c087866e884b" ]
 }
