@@ -2,42 +2,21 @@
 // UnityRuntime.cs - 2026-11-22 15:11:13
 
 #nullable enable
-using System;
 using System.Collections;
-using UnityEngine;
+using Package.Com.TeamPawouch.Interstice.Runtime.Core.Application.Api;
+using Package.Com.TeamPawouch.Interstice.Runtime.Core.Bridge.Unity;
 
 namespace Package.Com.TeamPawouch.Interstice.Runtime.Core.Application.Adapter;
 
-public enum RuntimeState {
-	None,
-	Runtime,
-	Stopped,
-}
+internal sealed class UnityRuntime : GObject, IRuntime {
+	public static IRuntime? ClassInstance { get; private set; }
 
-internal class UnityRuntime : MonoBehaviour {
-	internal static UnityRuntime ClassInstance {
-		get {
-			if(_instance == null) {
-				GameObject go = new(Environment.ProcessorCount.ToString()) {
-					hideFlags = HideFlags.NotEditable
-				};
+	public RuntimeState State { get; private set; }
 
-				_instance = go.AddComponent<UnityRuntime>();
-			}
-
-			return _instance;
-		}
-	}
-
-	private static UnityRuntime? _instance;
-
-	internal int TickRate {
+	public int TickRate {
 		get => _tickRate;
 		set {
-			if(value <= 0) {
-				_tickRate = DEFAULT_TICK_RATE;
-				throw new ArgumentException("Tick rate must be greater than zero");
-			}
+			if(value <= 0) throw new ArgumentException("Tick rate must be greater than zero");
 
 			if(_tickRate == value) return;
 
@@ -46,71 +25,116 @@ internal class UnityRuntime : MonoBehaviour {
 		}
 	}
 
-	internal int Tick {
+	public int Tick {
 		get => _tick;
 		private set {
 			if(_tick == value) return;
+
+			if(State != RuntimeState.Runtime) return;
 
 			_tick = value;
 			OnTick?.Invoke(value);
 		}
 	}
 
+	public float Interval => 1f / TickRate;
+
 	private int _tickRate;
 	private int _tick;
 
-	internal event Action<int>? OnTickRateChanged;
-	internal event Action<int>? OnTick;
+	public event Action<int>? OnTickRateChanged, OnTick;
+	public event Action?      OnTickStarted,     OnTickStopped, OnTickUnpaused;
 
-	internal event Action? OnTickStarted, OnTickStopped;
+	private Coroutine? _process;
 
-	private const int DEFAULT_TICK_RATE = 60;
+	public static IRuntime CreateInstance() {
+		GameObject go = new($"{typeof(UnityRuntime).FullName}") {
+			hideFlags = HideFlags.NotEditable
+		};
 
-	internal void Installation() { }
+		DontDestroyOnLoad(go);
 
-	internal void Uninstallation() { }
+		return go.AddComponent<UnityRuntime>();
+	}
 
-	internal void StartProcess(int tickRate = DEFAULT_TICK_RATE) { }
+	public void Initialize() {
+		if(State != RuntimeState.None) throw new InvalidOperationException();
+		if(ClassInstance != null) {
+			Destroy(gameObject);
+			throw new InvalidOperationException();
+		}
 
-	internal void StopProcess(bool keepAccumulatedTick = true) {
+		ClassInstance = this;
+		TickRate      = IRuntime.DEFAULT_TICK_RATE;
+		_tick         = 0;
+
+		State = RuntimeState.Initialized;
+	}
+
+	public void Dispose(bool destroy = true) {
+		if(State == RuntimeState.None) return;
+
+		OnTickRateChanged = null;
+		OnTick            = null;
+		OnTickStarted     = null;
+		OnTickStopped     = null;
+		OnTickUnpaused    = null;
+
+		if(State == RuntimeState.Runtime) StopProcess(false);
+		State = RuntimeState.Destroy;
+
+		if(destroy) Destroy(gameObject);
+	}
+
+	public void StartProcess(int tickRate = IRuntime.DEFAULT_TICK_RATE) {
+		if(State is RuntimeState.Runtime or RuntimeState.None || _process != null) throw new InvalidOperationException();
+
+		TickRate = tickRate;
+
+		_process = StartCoroutine(Process());
+	}
+
+	public void StopProcess(bool keepAccumulatedTick = true) {
+		if(State != RuntimeState.Runtime || _process == null) throw new InvalidOperationException();
+
 		if(!keepAccumulatedTick) _tick = 0;
 
+		State = RuntimeState.Stopped;
+		StopCoroutine(_process);
+		_process = null;
 		OnTickStopped?.Invoke();
 	}
 
-	private IEnumerator Process(int tickRate) {
-		if(tickRate == 0) throw new ArgumentException(nameof(tickRate));
+	private IEnumerator Process() {
+		float elapsed = 0f;
 
-		TickRate = tickRate;
-		float interval = 1f / TickRate;
-		float elapsed  = 0f;
+		if(State == RuntimeState.Stopped) OnTickUnpaused?.Invoke();
+		else OnTickStarted?.Invoke();
 
-		OnTickRateChanged -= UpdateInterval;
-		OnTickRateChanged += UpdateInterval;
-
-		OnTickStarted?.Invoke();
-		while(true) {
-			if(!enabled) {
+		State = RuntimeState.Runtime;
+		while(gameObject && State == RuntimeState.Runtime) {
+			if(!isActiveAndEnabled) {
 				yield return null;
 				continue;
 			}
 
-			if(!gameObject) break;
-
-			yield return null;
 			elapsed += Time.deltaTime;
 
-			if(elapsed < interval) continue;
+			while(elapsed >= Interval) {
+				Tick++;
+				elapsed -= Interval;
+			}
 
-			Tick++;
-			elapsed -= interval;
+			yield return null;
 		}
+	}
 
-		// Destroy
-		OnTickRateChanged -= UpdateInterval;
-		yield break;
+	protected override void OnDestroy() {
+		if(State != RuntimeState.Destroy) Dispose(false);
 
-		void UpdateInterval(int tr) => interval = 1f / tr;
+		ClassInstance = null;
+		State         = RuntimeState.None;
+		base.OnDestroy();
 	}
 }
 

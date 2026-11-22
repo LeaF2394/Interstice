@@ -2,10 +2,9 @@
 // Bootstrap.cs - 2026-11-22 15:11:03
 
 #nullable enable
-using System;
 using System.IO;
 using Package.Com.TeamPawouch.Interstice.Runtime.Core.Application.Adapter;
-using UnityEngine;
+using Package.Com.TeamPawouch.Interstice.Runtime.Core.Application.Addon;
 
 namespace Package.Com.TeamPawouch.Interstice.Runtime.Core.Application;
 
@@ -13,7 +12,7 @@ internal static class Bootstrap {
 	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
 	private static void Complete() {
 		string gameRoot = $".{UnityEngine.Application.productName.ToLower()}";
-		string rootPath = AppDomain.CurrentDomain.BaseDirectory;
+		string rootPath = Path.GetFullPath(Path.Combine(UnityEngine.Application.dataPath, ".."));
 
 		Directory.CreateDirectory(Path.Combine(rootPath, gameRoot));
 	}
@@ -25,8 +24,11 @@ internal static class Bootstrap {
 
 	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
 	private static void Adapt() {
-		UnityRuntime.ClassInstance.Installation();
-		UnityRuntime.ClassInstance.StartProcess();
+		UnityRuntime.CreateInstance().Initialize();
+		UnityRuntime.ClassInstance?.StartProcess();
+		
+		LuaInterpreter.Installation(UnityRuntime.ClassInstance ?? throw new NullReferenceException());
+		LuaInterpreter.Interpret("print('hello')");
 	}
 }
 
