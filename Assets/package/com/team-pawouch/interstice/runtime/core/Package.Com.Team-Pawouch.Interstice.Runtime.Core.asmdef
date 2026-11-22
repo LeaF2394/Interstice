@@ -2,13 +2,18 @@
     "name": "Package.Com.Team-Pawouch.Interstice.Runtime.Core",
     "rootNamespace": "Package.Com.TeamPawouch.Interstice.Runtime.Core",
     "references": [
-        "GUID:b9fbf339c97314e43b0c528eb6f305ad"
+        "GUID:b9fbf339c97314e43b0c528eb6f305ad",
+        "GUID:9a6cf34a549af984a8261064d7c4feb8"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "UnityPipeline.Microsoft.CodeAnalysis.dll",
+        "UnityPipeline.Microsoft.CodeAnalysis.CSharp.dll",
+        "Unity.Plastic.Newtonsoft.Json.dll"
+    ],
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
