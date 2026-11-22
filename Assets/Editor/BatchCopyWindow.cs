@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using com.team_pawouch.framework.core.runtime;
 using UnityEditor;
 using UnityEngine;
 
@@ -165,7 +164,7 @@ public class BatchCopyWindow : EditorWindow {
 
 					File.Copy(src, dest, true);
 					success++;
-					UnityLogger.ClassInstance.InfoF("BatchCopy", "{0} -> {1}", src, dest);
+					Debug.LogFormat("BatchCopy: {0} -> {1}", src, dest);
 				}
 				catch(Exception e) {
 					fail++;
@@ -183,7 +182,7 @@ public class BatchCopyWindow : EditorWindow {
 		EditorUtility.DisplayDialog("Batch Copy", msg, "Yes");
 
 		foreach(string e in errors)
-			UnityLogger.ClassInstance.WarnF("BatchCopy", e);
+			Debug.LogWarningFormat("BatchCopy: {0}", e);
 	}
 }
 
