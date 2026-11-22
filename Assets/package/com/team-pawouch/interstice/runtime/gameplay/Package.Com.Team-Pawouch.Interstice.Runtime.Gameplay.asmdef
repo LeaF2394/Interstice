@@ -1,0 +1,18 @@
+{
+    "name": "Package.Com.Team-Pawouch.Interstice.Runtime.Gameplay",
+    "rootNamespace": "Package.Com.TeamPawouch.Interstice.Runtime.Gameplay",
+    "references": [
+        "GUID:c3bb57eb64e9a584991226b804794a84",
+        "GUID:b9b45b2d05cc3524790774084f690dfd",
+        "GUID:b9fbf339c97314e43b0c528eb6f305ad"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}
