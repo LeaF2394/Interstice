@@ -1,0 +1,16 @@
+{
+    "name": "Package.Com.Team-Pawouch.Interstice.Runtime.DB",
+    "rootNamespace": "Package.Com.TeamPawouch.Interstice.Runtime.DB",
+    "references": [
+        "GUID:b9fbf339c97314e43b0c528eb6f305ad"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

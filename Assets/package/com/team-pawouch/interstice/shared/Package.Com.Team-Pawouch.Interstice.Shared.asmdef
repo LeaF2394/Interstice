@@ -1,0 +1,14 @@
+{
+    "name": "Package.Com.Team-Pawouch.Interstice.Shared",
+    "rootNamespace": "Package.Com.TeamPawouch.Interstice.Shared",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

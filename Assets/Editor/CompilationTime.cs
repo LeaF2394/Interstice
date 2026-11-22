@@ -11,7 +11,7 @@ using UnityEditor.Compilation;
 using UnityEngine;
 
 #nullable enable
-namespace com.team_pawouch.framework.editor;
+namespace Editor;
 
 [InitializeOnLoad]
 public static class CompilationTime {
