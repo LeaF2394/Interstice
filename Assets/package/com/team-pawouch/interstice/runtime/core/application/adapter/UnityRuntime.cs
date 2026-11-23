@@ -105,6 +105,10 @@ internal sealed class UnityRuntime : GObject, IRuntime {
 		OnTickStopped?.Invoke();
 	}
 
+	public void ReportError(Exception ex) {
+		Debug.LogException(ex);
+	}
+
 	private IEnumerator Process() {
 		float elapsed = 0f;
 
