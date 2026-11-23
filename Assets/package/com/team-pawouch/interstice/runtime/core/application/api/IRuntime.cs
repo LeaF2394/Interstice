@@ -21,6 +21,8 @@ public interface IRuntime : IIdentifier {
 	void Dispose(bool     destroy             = true);
 	void StartProcess(int tickRate            = DEFAULT_TICK_RATE);
 	void StopProcess(bool keepAccumulatedTick = true);
+
+	void ReportError(Exception ex);
 }
 
 // END FILE
