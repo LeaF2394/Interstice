@@ -15,6 +15,7 @@ internal static class Bootstrap {
 	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
 	private static void Complete() {
 		Singleton<AppPath>.CreateInstance(() => new AppPath());
+		ReleaseInstance(Singleton<AppPath>.DestroyInstance);
 		Singleton<AppPath>.ClassInstance!.BasePath = Path.GetFullPath(Path.Combine(UnityEngine.Application.dataPath, ".."));
 		Singleton<AppPath>.ClassInstance.GamePath  = Path.Combine(Singleton<AppPath>.ClassInstance.BasePath, $".{UnityEngine.Application.productName.ToLower()}");
 
@@ -25,6 +26,7 @@ internal static class Bootstrap {
 	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
 	private static void Main() {
 		Singleton<GameLauncher>.CreateInstance(() => new GameLauncher(Environment.GetCommandLineArgs()));
+		ReleaseInstance(Singleton<GameLauncher>.DestroyInstance);
 		Task.Run(() => Singleton<GameLauncher>.ClassInstance!.Launch(), CancellationToken.None);
 	}
 
@@ -35,10 +37,8 @@ internal static class Bootstrap {
 
 		LuaInterpreter.Installation(UnityRuntime.ClassInstance);
 
-		UnityEngine.Application.quitting -= LuaInterpreter.Uninstallation;
-		UnityEngine.Application.quitting += LuaInterpreter.Uninstallation;
-		UnityEngine.Application.quitting -= OnQuit;
-		UnityEngine.Application.quitting += OnQuit;
+		ReleaseInstance(LuaInterpreter.Uninstallation);
+		ReleaseInstance(OnQuit);
 
 		LuaInterpreter.Interpret("main");
 		return;
@@ -48,6 +48,11 @@ internal static class Bootstrap {
 
 			UnityRuntime.ClassInstance.Dispose();
 		}
+	}
+
+	private static void ReleaseInstance(Action dispose) {
+		UnityEngine.Application.quitting -= dispose;
+		UnityEngine.Application.quitting += dispose;
 	}
 }
 
